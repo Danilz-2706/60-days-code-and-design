@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../constants/color_spacing.dart';
-import 'header.dart';
+import '../../../components/header.dart';
 import '../../../components/list_task.dart';
 
 class BodyTaskScreen extends StatelessWidget {
@@ -11,14 +11,17 @@ class BodyTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: const [
-          Header(),
-          SizedBox(height: defaultPadding),
-          Expanded(child: ListTasks()),
-        ],
-      ),
+    return Column(
+      children: const [
+        Header(
+          title: "Tasks",
+          tooltip: "Add task",
+          icon: Icons.add,
+          active: true,
+        ),
+        SizedBox(height: defaultPadding),
+        Expanded(child: ListTasks()),
+      ],
     );
   }
 }

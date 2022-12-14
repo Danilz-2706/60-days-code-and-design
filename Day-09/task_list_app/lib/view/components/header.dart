@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:task_list_app/controller/blocs/bloc_exports.dart';
 
-import '../../../constants/responsive.dart';
-import 'add_task_screen.dart';
+import '../constants/responsive.dart';
+import '../screens/task/components/add_task_screen.dart';
 
 class Header extends StatelessWidget {
   const Header({
     Key? key,
+    required this.title,
+    this.tooltip,
+    this.icon,
+    this.active = false,
   }) : super(key: key);
+
+  final String title;
+  final String? tooltip;
+  final IconData? icon;
+  final bool active;
 
   @override
   Widget build(BuildContext context) {
@@ -15,22 +25,25 @@ class Header extends StatelessWidget {
         if (!Responsive.isDesktop(context))
           IconButton(
             icon: const Icon(Icons.menu),
-            onPressed: () {},
+            onPressed: () {
+              context.read<NavigatorMenuBloc>().controlMenu();
+            },
           ),
         if (!Responsive.isMobile(context))
           Text(
-            "Tasks",
+            title,
             style: Theme.of(context).textTheme.headline6,
           ),
         const Spacer(),
-        IconButton(
-          tooltip: "Add Task",
-          onPressed: () => _addTask(context),
-          icon: const Icon(
-            Icons.add,
-            color: Colors.white,
+        if (active == true)
+          IconButton(
+            tooltip: tooltip,
+            onPressed: () => _addTask(context),
+            icon: Icon(
+              icon,
+              color: Colors.white,
+            ),
           ),
-        ),
       ],
     );
   }

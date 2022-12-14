@@ -2,10 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:task_list_app/controller/blocs/bloc_exports.dart';
-import 'package:task_list_app/view/constants/color_spacing.dart';
 
-import 'view/screens/task/task_screen.dart';
+import 'controller/blocs/bloc_exports.dart';
+import 'view/constants/color_spacing.dart';
+import 'view/screens/main/main_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +26,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider<TaskBloc>(
           create: (context) => TaskBloc(),
+        ),
+        BlocProvider<NavigatorMenuBloc>(
+          create: (context) => NavigatorMenuBloc(),
         )
       ],
       child: MaterialApp(
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
               .apply(bodyColor: Colors.white),
           canvasColor: secondaryColor,
         ),
-        home: const TaskScreen(),
+        home: const MainScreen(),
       ),
     );
   }

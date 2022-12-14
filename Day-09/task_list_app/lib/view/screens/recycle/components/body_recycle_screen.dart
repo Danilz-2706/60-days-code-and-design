@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../components/list_task.dart';
+import '../../../components/header.dart';
 import '../../../constants/color_spacing.dart';
 
 class BodyRecycleScreen extends StatelessWidget {
@@ -11,10 +11,10 @@ class BodyRecycleScreen extends StatelessWidget {
     return SafeArea(
       child: Column(
         children: const [
-          SizedBox(height: defaultPadding),
-          Expanded(
-            child: ListTasks(),
+          Header(
+            title: "Recycle",
           ),
+          SizedBox(height: defaultPadding),
         ],
       ),
     );
