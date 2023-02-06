@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:portfolio/views/components/big_title.dart';
 import 'package:portfolio/views/constans/responsive.dart';
 
+import '../../../controllers/blocs/bloc_exports.dart';
 import '../../components/footer.dart';
 import '../../constans/grid_system.dart';
 import 'components/list_image_profile.dart';
@@ -31,13 +32,33 @@ class ContainerAbout extends StatelessWidget {
               BigTitle(context: context, title: "About me"),
 
               //Avatar
-              if (MyResponsive.isDesktop(context))
-                item75(context,
-                    image: "assets/images/avatar.png", sizeImage: 280),
-              if (MyResponsive.isTablet(context) ||
-                  MyResponsive.isMobile(context))
-                item50(context,
-                    image: "assets/images/avatar.png", sizeImage: 280),
+
+              BlocBuilder<ProfileBloc, ProfileState>(
+                builder: (context, state) {
+                  if (state is LoadingProfileState) {
+                    return const CircularProgressIndicator();
+                  } else if (state is LoadedProfileState) {
+                    if (MyResponsive.isDesktop(context)) {
+                      return item75(
+                        context,
+                        image: state.profile.avatar,
+                        sizeImage: 280,
+                      );
+                    }
+                    if (MyResponsive.isTablet(context) ||
+                        MyResponsive.isMobile(context)) {
+                      return item50(
+                        context,
+                        image: state.profile.avatar,
+                        sizeImage: 280,
+                      );
+                    }
+                  } else {
+                    return Container();
+                  }
+                  return Container();
+                },
+              ),
               if (MyResponsive.isDesktop(context))
                 item25(
                   context,
