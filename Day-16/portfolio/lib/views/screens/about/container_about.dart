@@ -31,8 +31,6 @@ class ContainerAbout extends StatelessWidget {
             [
               BigTitle(context: context, title: "About me"),
 
-              //Avatar
-
               BlocBuilder<ProfileBloc, ProfileState>(
                 builder: (context, state) {
                   if (state is LoadingProfileState) {
