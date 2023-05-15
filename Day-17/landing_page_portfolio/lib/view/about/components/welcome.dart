@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../controller/blocs/bloc_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../../model/font-end/text_about.dart';
 import '../../components/text_card.dart';
 
@@ -11,13 +10,13 @@ class Welcome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is LoadingProfileState) {
+        if (state is ProfileLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is LoadedProfileState) {
+        } else if (state is ProfileLoaded) {
           var data = state.profile;
           return TextCard(
             overFlow: false,

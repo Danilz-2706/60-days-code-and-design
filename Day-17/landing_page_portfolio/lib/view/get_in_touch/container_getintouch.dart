@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../controller/blocs/bloc_exports.dart';
+import '../../controller/cubits/cubit_export.dart';
 import '../components/footer.dart';
 import '../components/menu_title.dart';
 import '../constans/colors.dart';
@@ -36,13 +35,13 @@ class ContainerGetInTouch extends StatelessWidget {
                   style: TextStyle(fontSize: 18, color: kTextColor),
                 ),
                 const SizedBox(height: kDefaultPadding / 2),
-                BlocBuilder<ProfileBloc, ProfileState>(
+                BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
-                    if (state is LoadingProfileState) {
+                    if (state is ProfileLoading) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else if (state is LoadedProfileState) {
+                    } else if (state is ProfileLoaded) {
                       var data = state.profile;
 
                       return MouseRegion(
@@ -70,13 +69,13 @@ class ContainerGetInTouch extends StatelessWidget {
                   style: TextStyle(fontSize: 18, color: kTextColor),
                 ),
                 const SizedBox(height: kDefaultPadding / 2),
-                BlocBuilder<ProfileBloc, ProfileState>(
+                BlocBuilder<ProfileCubit, ProfileState>(
                   builder: (context, state) {
-                    if (state is LoadingProfileState) {
+                    if (state is ProfileLoading) {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    } else if (state is LoadedProfileState) {
+                    } else if (state is ProfileLoaded) {
                       var data = state.profile;
                       return MouseRegion(
                         cursor: SystemMouseCursors.click,

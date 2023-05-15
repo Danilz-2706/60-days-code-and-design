@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../controller/blocs/bloc_exports.dart';
-import '../../../controller/services/service_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../constans/colors.dart';
 import '../../constans/grid_system.dart';
 
@@ -15,17 +14,15 @@ class TitleWorkDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<WorkBloc>(
-      create: (context) =>
-          WorkBloc(workService: RepositoryProvider.of<WorkService>(context))
-            ..add(GetOnlyWorkEvent(workId: workId)),
-      child: BlocBuilder<WorkBloc, WorkState>(
+    return BlocProvider<WorkCubit>(
+      create: (context) => WorkCubit()..getOnlyWork(workId),
+      child: BlocBuilder<WorkCubit, WorkState>(
         builder: (context, state) {
-          if (state is LoadingWorkState) {
+          if (state is WorkLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is GetOnlyWorkState) {
+          } else if (state is WorkOnlyLoaded) {
             var data = state.work;
             return Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

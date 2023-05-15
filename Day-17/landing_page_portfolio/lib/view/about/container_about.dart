@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-import '../../controller/blocs/bloc_exports.dart';
+import '../../controller/cubits/cubit_export.dart';
 import '../components/big_title.dart';
 import '../components/footer.dart';
 import '../constans/grid_system.dart';
@@ -31,11 +31,11 @@ class ContainerAbout extends StatelessWidget {
             [
               BigTitle(context: context, title: "About me"),
 
-              BlocBuilder<ProfileBloc, ProfileState>(
+              BlocBuilder<ProfileCubit, ProfileState>(
                 builder: (context, state) {
-                  if (state is LoadingProfileState) {
+                  if (state is ProfileLoading) {
                     return const CircularProgressIndicator();
-                  } else if (state is LoadedProfileState) {
+                  } else if (state is ProfileLoaded) {
                     if (MyResponsive.isDesktop(context)) {
                       return item75(
                         context,

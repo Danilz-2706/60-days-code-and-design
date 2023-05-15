@@ -2,8 +2,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_layout_grid/responsive_layout_grid.dart';
 
-import '../../../controller/blocs/bloc_exports.dart';
-import '../../../controller/services/service_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../../model/back_end/work.dart';
 import '../../../model/font-end/animated_positioned.dart';
 import '../../constans/colors.dart';
@@ -17,44 +16,39 @@ class ListWork extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<WorkBloc>(
-      create: (context) =>
-          WorkBloc(workService: RepositoryProvider.of<WorkService>(context))
-            ..add(GetAllWorkEvent()),
-      child: BlocBuilder<WorkBloc, WorkState>(
-        builder: (context, state) {
-          if (state is LoadingWorkState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state is GetAllWorkState) {
-            var data = state.listWork;
-            return SingleChildScrollView(
-              child: gridSystemMyApp(
-                context,
-                [
-                  ...List.generate(
-                    data.length,
-                    (index) {
-                      if (data[index].nameType == "${TypeApp.ios}" ||
-                          data[index].nameType == "${TypeApp.android}") {
-                        return _itemForApp(context, data, index);
-                      } else if (data[index].nameType == "${TypeApp.web}") {
-                        return _itemForWeb(context, data, index);
-                      }
-                      return item100(context);
-                    },
-                  ),
-                ],
-              ),
-            );
-          }
-          return const Text(
-            "Error",
-            style: TextStyle(color: kTextColor),
+    return BlocBuilder<WorkCubit, WorkState>(
+      builder: (context, state) {
+        if (state is WorkLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
           );
-        },
-      ),
+        } else if (state is WorkLoaded) {
+          var data = state.listWork;
+          return SingleChildScrollView(
+            child: gridSystemMyApp(
+              context,
+              [
+                ...List.generate(
+                  data.length,
+                  (index) {
+                    if (data[index].nameType == "${TypeApp.ios}" ||
+                        data[index].nameType == "${TypeApp.android}") {
+                      return _itemForApp(context, data, index);
+                    } else if (data[index].nameType == "${TypeApp.web}") {
+                      return _itemForWeb(context, data, index);
+                    }
+                    return item100(context);
+                  },
+                ),
+              ],
+            ),
+          );
+        }
+        return const Text(
+          "Error",
+          style: TextStyle(color: kTextColor),
+        );
+      },
     );
   }
 

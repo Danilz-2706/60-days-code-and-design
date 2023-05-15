@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../../controller/blocs/bloc_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../constans/colors.dart';
 import '../../constans/spacing.dart';
 
@@ -10,11 +10,11 @@ class ItemLeft extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GetInTouchBloc, GetInTouchState>(
+    return BlocBuilder<GetInTouchCubit, GetInTouchState>(
       builder: (context, state) {
-        if (state is LoadingGetInTouchState) {
+        if (state is GetInTouchLoading) {
           return const CircularProgressIndicator();
-        } else if (state is GetAllGetInTouchState) {
+        } else if (state is GetInTouchLoaded) {
           var data = state.listGetInTouch;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -34,7 +34,7 @@ class ItemLeft extends StatelessWidget {
               )
             ],
           );
-        } else if (state is ErrorGetInTouchState) {
+        } else if (state is GetInTouchError) {
           return Container();
         }
         return Container();

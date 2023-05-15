@@ -4,7 +4,7 @@ import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_layout_grid/responsive_layout_grid.dart';
 
-import '../../controller/blocs/bloc_exports.dart';
+import '../../controller/cubits/cubit_export.dart';
 import '../constans/colors.dart';
 import '../constans/grid_system.dart';
 import '../constans/responsive.dart';
@@ -148,14 +148,14 @@ class _HeaderState extends State<Header> {
                 ? 2
                 : 2,
       ),
-      child: BlocBuilder<ProfileBloc, ProfileState>(
+      child: BlocBuilder<ProfileCubit, ProfileState>(
         builder: (context, state) {
           print(state);
-          if (state is LoadingProfileState) {
+          if (state is ProfileLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state is LoadedProfileState) {
+          } else if (state is ProfileLoaded) {
             final data = state.profile;
             return MouseRegion(
               cursor: SystemMouseCursors.click,

@@ -1,6 +1,6 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import '../../../controller/blocs/bloc_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../../model/font-end/animated_positioned.dart';
 import '../../components/item_card.dart';
 import '../../constans/colors.dart';
@@ -12,14 +12,14 @@ class ForAboutMe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
+    return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is LoadingProfileState) {
+        if (state is ProfileLoading) {
           return const Center(
             child: CircularProgressIndicator(),
           );
-        } else if (state is LoadedProfileState) {
-          final data = state.profile;
+        } else if (state is ProfileLoaded) {
+          var data = state.profile;
           return ItemCard(
             list: [
               MyAnimatedPositioned(

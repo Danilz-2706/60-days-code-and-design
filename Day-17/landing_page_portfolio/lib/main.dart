@@ -2,11 +2,11 @@ import 'package:beamer/beamer.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'controller/blocs/bloc_exports.dart';
-import 'controller/services/service_exports.dart';
+import 'controller/cubits/cubit_export.dart';
 import 'firebase_options.dart';
 import 'view/constans/app_router.dart';
 import 'view/constans/colors.dart';
+import 'view/constans/custom_scroll.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,52 +25,30 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
+    return MultiBlocProvider(
       providers: [
-        RepositoryProvider<ProfileService>(
-          create: (context) => ProfileService(),
+        BlocProvider<ProfileCubit>(
+          create: (context) => ProfileCubit()..getProfile(),
         ),
-        RepositoryProvider<WorkService>(
-          create: (context) => WorkService(),
+        BlocProvider<WorkCubit>(
+          create: (context) => WorkCubit()..getAllWork(),
         ),
-        RepositoryProvider<ProcessService>(
-          create: (context) => ProcessService(),
+        BlocProvider<GetInTouchCubit>(
+          create: (context) => GetInTouchCubit()..getAllGetInTouch(),
         ),
-        RepositoryProvider<ImageService>(
-          create: (context) => ImageService(),
-        ),
-        RepositoryProvider<GetInTouchService>(
-          create: (context) => GetInTouchService(),
+        BlocProvider<ImageCubit>(
+          create: (context) => ImageCubit()..getListImage(),
         ),
       ],
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider<ProfileBloc>(
-            create: (context) => ProfileBloc(
-                profileService: RepositoryProvider.of<ProfileService>(context))
-              ..add(const GetEvent()),
-          ),
-          BlocProvider<WorkBloc>(
-            create: (context) => WorkBloc(
-                workService: RepositoryProvider.of<WorkService>(context))
-              ..add(GetAllWorkEvent()),
-          ),
-          BlocProvider<GetInTouchBloc>(
-            create: (context) => GetInTouchBloc(
-                getInTouchService:
-                    RepositoryProvider.of<GetInTouchService>(context))
-              ..add(GetAllGetInTouchEvent()),
-          ),
-        ],
-        child: MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'DMSans',
-            scaffoldBackgroundColor: kBgDarkColor,
-          ),
-          routeInformationParser: BeamerParser(),
-          routerDelegate: routerDelegate,
+      child: MaterialApp.router(
+        scrollBehavior: CustomScrollBehavior(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'DMSans',
+          scaffoldBackgroundColor: kBgDarkColor,
         ),
+        routeInformationParser: BeamerParser(),
+        routerDelegate: routerDelegate,
       ),
     );
   }

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../controller/blocs/bloc_exports.dart';
-import '../../../controller/services/service_exports.dart';
+import '../../../controller/cubits/cubit_export.dart';
 import '../../constans/colors.dart';
 import '../../constans/grid_system.dart';
 
@@ -15,13 +13,11 @@ class ProcessDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ProcessBloc>(
-      create: (context) => ProcessBloc(
-          processService: RepositoryProvider.of<ProcessService>(context))
-        ..add(GetAllProcessEvent(workId: workId)),
-      child: BlocBuilder<ProcessBloc, ProcessState>(
+    return BlocProvider<ProcessCubit>(
+      create: (context) => ProcessCubit()..getAllProcess(workId),
+      child: BlocBuilder<ProcessCubit, ProcessState>(
         builder: (context, state) {
-          if (state is LoadingProcessState) {
+          if (state is ProcessLoadingState) {
             return const Center(
               child: CircularProgressIndicator(),
             );
