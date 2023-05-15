@@ -1,0 +1,44 @@
+import 'package:flutter/material.dart';
+import '../../../controller/cubits/cubit_export.dart';
+import '../../constans/colors.dart';
+import '../../constans/spacing.dart';
+
+class ItemLeft extends StatelessWidget {
+  const ItemLeft({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<GetInTouchCubit, GetInTouchState>(
+      builder: (context, state) {
+        if (state is GetInTouchLoading) {
+          return const CircularProgressIndicator();
+        } else if (state is GetInTouchLoaded) {
+          var data = state.listGetInTouch;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ...List.generate(
+                data.length,
+                (index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      data[index].text,
+                      style: const TextStyle(fontSize: 18, color: kTextColor),
+                    ),
+                    const SizedBox(height: kDefaultPadding),
+                  ],
+                ),
+              )
+            ],
+          );
+        } else if (state is GetInTouchError) {
+          return Container();
+        }
+        return Container();
+      },
+    );
+  }
+}
